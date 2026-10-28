@@ -12,7 +12,7 @@ The original goal was simple:
 
 Screenshot
 
-SystemPulse Dashboard
+![SystemPulse Dashboard](assets/systempulse-dashboard.png)
 Features
 
     Live CPU utilisation monitoring
