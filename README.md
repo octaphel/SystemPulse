@@ -316,33 +316,4 @@ Instead, it aims to provide the most useful system telemetry at a glance inside 
 
 
 
-\## Roadmap
-
-
-
-Future development may include:
-
-
-
-\- Additional status indicators
-
-\- Alternative HUD layouts
-
-\- Better terminal customisation
-
-\- Optional advanced hardware telemetry
-
-\- PowerShell 7 enhancements
-
-
-
-\---
-
-
-
-\## License
-
-
-
-MIT License
-
+\##
