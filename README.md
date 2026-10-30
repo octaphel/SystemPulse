@@ -136,7 +136,7 @@ Example:
 
 ```powershell
 
-git clone https://github.com/octaphel/SystemPulse.git
+git clone https://github.com/yourname/SystemPulse.git
 
 ```
 

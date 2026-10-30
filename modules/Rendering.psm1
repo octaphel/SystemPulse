@@ -53,9 +53,11 @@ function Show-SystemPulseOverview {
         $Overview.MemoryPercent,
         $Overview.GpuPercent,
         $Overview.DiskBusy
-    ) | Where-Object {
+    ) |
+    Where-Object {
         $null -ne $_
-    } | Measure-Object -Maximum
+    } |
+    Measure-Object -Maximum
 
     $BorderColor = "Green"
 
@@ -70,26 +72,19 @@ function Show-SystemPulseOverview {
     $StatusColor = "Green"
 
     if ($HighestLoad.Maximum -ge 95) {
-
         $StatusText = "CRITICAL"
         $StatusColor = "Red"
-
     }
     elseif ($HighestLoad.Maximum -ge 85) {
-
         $StatusText = "STRESSED"
         $StatusColor = "Red"
-
     }
     elseif ($HighestLoad.Maximum -ge 60) {
-
         $StatusText = "ELEVATED LOAD"
         $StatusColor = "Yellow"
-
     }
 
     Write-Host ""
-
     Write-Host "=======================================================" `
         -ForegroundColor $BorderColor
 
@@ -122,6 +117,8 @@ function Show-SystemPulseOverview {
 
     Write-Host ""
 
+    # CPU
+
     Write-Host "CPU" -ForegroundColor Cyan
 
     Write-Host (
@@ -130,7 +127,27 @@ function Show-SystemPulseOverview {
         $Overview.CpuPercent
     )
 
+    Write-Host "  Top Process :" `
+        -NoNewline `
+        -ForegroundColor Magenta
+
+    if ($null -ne $Overview.TopCpuPercent) {
+
+        Write-Host (
+            " {0} ({1:N1}%)" -f
+            $Overview.TopCpuProcess,
+            $Overview.TopCpuPercent
+        ) -ForegroundColor Yellow
+    }
+    else {
+
+        Write-Host " Sampling..." `
+            -ForegroundColor DarkYellow
+    }
+
     Write-Host ""
+
+    # MEMORY
 
     Write-Host "MEMORY" -ForegroundColor Cyan
 
@@ -146,7 +163,27 @@ function Show-SystemPulseOverview {
         $Overview.MemoryTotalGB
     )
 
+    Write-Host "  Top Process :" `
+        -NoNewline `
+        -ForegroundColor Magenta
+
+    if ($null -ne $Overview.TopMemoryGB) {
+
+        Write-Host (
+            " {0} ({1:N2} GB)" -f
+            $Overview.TopMemoryProcess,
+            $Overview.TopMemoryGB
+        ) -ForegroundColor Yellow
+    }
+    else {
+
+        Write-Host " Unavailable" `
+            -ForegroundColor DarkYellow
+    }
+
     Write-Host ""
+
+    # GPU
 
     Write-Host "GPU" -ForegroundColor Cyan
 
@@ -168,15 +205,15 @@ function Show-SystemPulseOverview {
             $Overview.GpuVramUsedGB,
             $Overview.GpuVramTotalGB
         )
-
     }
     else {
 
         Write-Host "  Telemetry unavailable"
-
     }
 
     Write-Host ""
+
+    # NETWORK
 
     Write-Host "NETWORK" -ForegroundColor Cyan
 
@@ -191,6 +228,8 @@ function Show-SystemPulseOverview {
     )
 
     Write-Host ""
+
+    # DISK
 
     Write-Host "DISK" -ForegroundColor Cyan
 
@@ -211,16 +250,16 @@ function Show-SystemPulseOverview {
             "  Write       : {0}" -f
             (Format-TransferRate $Overview.DiskWrite)
         )
-
     }
     else {
 
         Write-Host "  Telemetry unavailable"
-
     }
 
     Write-Host ""
+
     Write-Host "Ctrl+C to exit" -ForegroundColor DarkGray
+
     Write-Host ""
 }
 
