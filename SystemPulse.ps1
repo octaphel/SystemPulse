@@ -8,7 +8,10 @@ Import-Module "$ProjectRoot\modules\Rendering.psm1" -Force
 $PreviousNetwork = Get-NetworkCounters
 $PreviousTime = Get-Date
 
-$CpuHistory = New-Object System.Collections.ArrayList
+$CpuHistory    = New-Object System.Collections.ArrayList
+$MemoryHistory = New-Object System.Collections.ArrayList
+$GpuHistory    = New-Object System.Collections.ArrayList
+$DiskHistory   = New-Object System.Collections.ArrayList
 
 while ($true) {
 
@@ -17,7 +20,34 @@ while ($true) {
     Add-HistoryPoint `
         -History $CpuHistory `
         -Value $Overview.CpuPercent `
-        -MaxPoints 60
+        -MaxPoints 8
+
+    Add-HistoryPoint `
+        -History $MemoryHistory `
+        -Value $Overview.MemoryPercent `
+        -MaxPoints 8
+
+    $GpuValue = 0
+
+    if ($null -ne $Overview.GpuPercent) {
+        $GpuValue = $Overview.GpuPercent
+    }
+
+    Add-HistoryPoint `
+        -History $GpuHistory `
+        -Value $GpuValue `
+        -MaxPoints 8
+
+    $DiskValue = 0
+
+    if ($null -ne $Overview.DiskBusy) {
+        $DiskValue = $Overview.DiskBusy
+    }
+
+    Add-HistoryPoint `
+        -History $DiskHistory `
+        -Value $DiskValue `
+        -MaxPoints 8
 
     $Overview | Add-Member `
         -NotePropertyName CpuHistory `
@@ -26,10 +56,32 @@ while ($true) {
         ) `
         -Force
 
+    $Overview | Add-Member `
+        -NotePropertyName MemoryHistory `
+        -NotePropertyValue (
+            ConvertTo-HistoryGraph $MemoryHistory
+        ) `
+        -Force
+
+    $Overview | Add-Member `
+        -NotePropertyName GpuHistory `
+        -NotePropertyValue (
+            ConvertTo-HistoryGraph $GpuHistory
+        ) `
+        -Force
+
+    $Overview | Add-Member `
+        -NotePropertyName DiskHistory `
+        -NotePropertyValue (
+            ConvertTo-HistoryGraph $DiskHistory
+        ) `
+        -Force
+
     $CurrentNetwork = Get-NetworkCounters
     $CurrentTime = Get-Date
 
-    $ElapsedSeconds = ($CurrentTime - $PreviousTime).TotalSeconds
+    $ElapsedSeconds =
+        ($CurrentTime - $PreviousTime).TotalSeconds
 
     if ($ElapsedSeconds -le 0) {
         $ElapsedSeconds = 1
