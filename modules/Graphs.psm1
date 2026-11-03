@@ -1,4 +1,5 @@
 function Get-SystemPulseGraphVersion {
+
     "0.3"
 }
 
@@ -9,13 +10,25 @@ function New-UsageBar {
         [int]$Width = 20
     )
 
-    if ($Percent -lt 0) { $Percent = 0 }
-    if ($Percent -gt 100) { $Percent = 100 }
+    if ($Percent -lt 0) {
+        $Percent = 0
+    }
 
-    $Filled = [math]::Round(($Percent / 100) * $Width)
+    if ($Percent -gt 100) {
+        $Percent = 100
+    }
+
+    $Filled =
+        [math]::Round(
+            ($Percent / 100) * $Width
+        )
+
     $Empty = $Width - $Filled
 
-    "[" + ("#" * $Filled) + ("." * $Empty) + "]"
+    "[" +
+    ("|" * $Filled) +
+    ("." * $Empty) +
+    "]"
 }
 
 function Add-HistoryPoint {
@@ -43,7 +56,10 @@ function ConvertTo-HistoryGraph {
         [System.Collections.ArrayList]$History
     )
 
-    if ($null -eq $History -or $History.Count -eq 0) {
+    if (
+        $null -eq $History -or
+        $History.Count -eq 0
+    ) {
         return ""
     }
 

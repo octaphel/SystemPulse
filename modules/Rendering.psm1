@@ -115,6 +115,10 @@ function Show-SystemPulseOverview {
         (Format-Uptime $Overview.Uptime)
     ) -ForegroundColor Gray
 
+    Write-Host (
+        "HistoryScale : Low ..__--==++**##@@ High"
+    ) -ForegroundColor DarkGray
+
     Write-Host ""
 
     # CPU
@@ -122,9 +126,10 @@ function Show-SystemPulseOverview {
     Write-Host "CPU" -ForegroundColor Cyan
 
     Write-Host (
-        "  Usage       : {0} {1:N1}%" -f
+        "  Usage       : {0} {1,5:N1}% | {2}" -f
         (New-UsageBar $Overview.CpuPercent),
-        $Overview.CpuPercent
+        $Overview.CpuPercent,
+        $Overview.CpuHistory
     )
 
     Write-Host "  Top Process :" `
@@ -152,9 +157,10 @@ function Show-SystemPulseOverview {
     Write-Host "MEMORY" -ForegroundColor Cyan
 
     Write-Host (
-        "  Usage       : {0} {1:N1}%" -f
+        "  Usage       : {0} {1,5:N1}% | {2}" -f
         (New-UsageBar $Overview.MemoryPercent),
-        $Overview.MemoryPercent
+        $Overview.MemoryPercent,
+        $Overview.MemoryHistory
     )
 
     Write-Host (
@@ -190,9 +196,10 @@ function Show-SystemPulseOverview {
     if ($null -ne $Overview.GpuPercent) {
 
         Write-Host (
-            "  Usage       : {0} {1:N1}%" -f
+            "  Usage       : {0} {1,5:N1}% | {2}" -f
             (New-UsageBar $Overview.GpuPercent),
-            $Overview.GpuPercent
+            $Overview.GpuPercent,
+            $Overview.GpuHistory
         )
 
         Write-Host (
@@ -236,9 +243,10 @@ function Show-SystemPulseOverview {
     if ($null -ne $Overview.DiskBusy) {
 
         Write-Host (
-            "  Busy        : {0} {1:N1}%" -f
+            "  Busy        : {0} {1,5:N1}% | {2}" -f
             (New-UsageBar $Overview.DiskBusy),
-            $Overview.DiskBusy
+            $Overview.DiskBusy,
+            $Overview.DiskHistory
         )
 
         Write-Host (
