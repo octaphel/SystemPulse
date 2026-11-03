@@ -1,317 +1,222 @@
-# SystemPulse, 
-
-
+# SystemPulse
 
 A lightweight real-time Windows system monitor built in PowerShell because Task Manager refuses to be transparent.
 
+SystemPulse was created as a minimal, low-overhead telemetry dashboard designed to live inside a transparent PowerShell or Windows Terminal window.
 
+The goal is simple:
 
-SystemPulse was created as a minimal, low-overhead telemetry dashboard that can live inside a transparent PowerShell or Windows Terminal window. The original goal was simple:
-
-
-
-> Keep an eye on system health while gaming, working or multitasking on a single-screen setup without dedicating screen space to Task Manager or other monitoring applications.
-
-
+> Keep an eye on system health while gaming, working, streaming or multitasking on a single-screen setup without sacrificing space to Task Manager or heavyweight monitoring suites.
 
 ---
-
-
 
 ## Screenshot
 
-
-
 ![SystemPulse Dashboard](assets/systempulse-dashboard.png)
 
-
-
 ---
-
-
 
 ## Features
 
+### Live Monitoring
 
-
-- Live CPU utilisation monitoring
-
-- Live memory utilisation monitoring
-
+- CPU utilisation monitoring
+- Memory utilisation monitoring
 - NVIDIA GPU utilisation monitoring
-
 - NVIDIA GPU temperature monitoring
-
 - VRAM usage monitoring
-
-- Live network download/upload throughput
-
+- Network download throughput
+- Network upload throughput
 - Disk activity monitoring
-
 - System uptime tracking
 
-- Dynamic system health status
+### Resource Insight
 
+- Top CPU-consuming process detection
+- Top memory-consuming process detection
+
+### History & Trends
+
+- 8-second CPU history graph
+- 8-second memory history graph
+- 8-second GPU history graph
+- 8-second disk activity history graph
+- Built-in graph scale legend
+- Rolling trend visualisation without leaving the dashboard
+
+### Dashboard Features
+
+- Dynamic system health evaluation
 - Dynamic HUD border colouring
-
-- Lightweight PowerShell implementation
-
+- Compact single-screen layout
+- Real-time updates
 - Transparent terminal friendly
-
-
+- Lightweight PowerShell implementation
+- No installation required
 
 ---
-
-
 
 ## Status Levels
 
-
-
-SystemPulse automatically evaluates the highest current system load and displays an overall status:
-
-
+SystemPulse continuously evaluates the highest current system load and assigns an overall system state.
 
 | Status | Meaning |
-
 |----------|----------|
-
 | OPTIMAL | Load below 60% |
-
 | ELEVATED LOAD | Load between 60% and 84% |
-
 | STRESSED | Load between 85% and 94% |
-
 | CRITICAL | Load above 95% |
 
-
-
-The dashboard border changes colour to match the current system state.
-
-
+The dashboard border changes colour automatically:
 
 - Green = OPTIMAL
-
 - Yellow = ELEVATED LOAD
-
 - Red = STRESSED / CRITICAL
 
+---
 
+## History Graph Scale
+
+SystemPulse includes compact rolling history graphs for quick trend recognition.
+
+```text
+Low ..__--==++**##@@ High
+```
+
+Higher symbols represent higher resource utilisation over the previous 8 seconds.
 
 ---
 
+## Requirements
 
-
-\## Requirements
-
-
-
-- Windows
-
+- Windows 10 / Windows 11
 - Windows PowerShell 5.1 or newer
+- NVIDIA drivers installed (optional GPU telemetry)
 
-- NVIDIA drivers installed (for optional GPU telemetry)
-
-
-
-If no NVIDIA GPU is detected, SystemPulse will continue running and simply disable GPU telemetry.
-
-
+If no NVIDIA GPU is detected, SystemPulse will continue running and simply disable GPU-related telemetry.
 
 ---
-
-
 
 ## Installation
 
+### Clone the repository
 
-
-Download or clone the repository to any folder.
-
-
-
-Example:
-
-
-
-```powershell
-
-git clone https://github.com/yourname/SystemPulse.git
-
+```bash
+git clone https://github.com/octaphel/SystemPulse.git
 ```
 
+### Or
 
-
-or simply download and extract the ZIP archive.
-
-
+Download the latest release ZIP and extract it to any folder.
 
 ---
-
-
 
 ## Usage
 
-
-
-Open a PowerShell window inside the SystemPulse folder and run:
-
-
+Open PowerShell inside the SystemPulse folder and run:
 
 ```powershell
-
-.\\SystemPulse.ps1
-
+.\SystemPulse.ps1
 ```
 
+The dashboard refreshes automatically once per second.
 
-
-The dashboard will refresh automatically once per second.
-
-
-
-Exit at any time with:
-
-
+Exit at any time using:
 
 ```text
-
-Ctrl+C
-
+Ctrl + C
 ```
 
-
-
 ---
-
-
 
 ## Recommended Setup
 
-
-
 SystemPulse works especially well when paired with:
 
-
-
 - Windows Terminal
-
 - PowerShell
+- Acrylic or transparent backgrounds
+- Always-on-top terminal windows
 
-- Transparent background enabled
-
-- Always-on-top terminal window
-
-
-
-This allows the dashboard to act as a lightweight HUD while gaming, working or browsing on a single monitor.
-
-
+This creates a lightweight telemetry HUD that remains visible while gaming, working or browsing.
 
 ---
-
-
-
-## Project Philosophy
-
-
-
-SystemPulse intentionally focuses on:
-
-
-
-- Simplicity
-
-- Readability
-
-- Low overhead
-
-- Minimal dependencies
-
-
-
-It is not intended to replace HWiNFO, MSI Afterburner or similar full-featured monitoring suites.
-
-
-
-Instead, it aims to provide the most useful system telemetry at a glance inside a terminal window.
-
-
-
----
-
-
 
 ## Current Metrics
 
-
-
 ### CPU
 
-
-
-- Total CPU usage
-
-
+- Total CPU utilisation
+- Top CPU-consuming process
+- 8-second utilisation history
 
 ### Memory
 
-
-
-- Memory usage percentage
-
+- Memory utilisation percentage
 - Used memory
-
 - Total memory
-
-
+- Top memory-consuming process
+- 8-second utilisation history
 
 ### GPU
 
-
-
 - GPU utilisation
-
 - GPU temperature
-
-- VRAM usage
-
-
+- VRAM utilisation
+- 8-second utilisation history
 
 ### Network
 
-
-
 - Download throughput
-
 - Upload throughput
-
-
 
 ### Storage
 
-
-
 - Disk activity percentage
-
 - Disk read throughput
-
 - Disk write throughput
+- 8-second activity history
 
-
-
-\### System
-
-
-
-- Current time
+### System
 
 - System uptime
-
-- Overall status
-
+- Current time
+- Overall health status
 
 ---
 
+## Release Lineage
 
-##
+### Baseline
+
+Initial public release establishing the core monitoring dashboard.
+
+### Heartbeat
+
+Introduced top-process monitoring for CPU and memory usage.
+
+### Rhythm
+
+Introduced compact rolling history graphs for CPU, memory, GPU and disk activity.
+
+---
+
+## Project Philosophy
+
+SystemPulse intentionally focuses on:
+
+- Simplicity
+- Readability
+- Low overhead
+- Minimal dependencies
+- Useful information at a glance
+
+It is not intended to replace tools such as HWiNFO, MSI Afterburner, Process Explorer or Task Manager.
+
+Instead, the goal is to surface the most useful performance information possible inside a clean terminal dashboard.
+
+---
+
+---
+
+Built with PowerShell
